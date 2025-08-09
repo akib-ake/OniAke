@@ -1,0 +1,30 @@
+<h2>Log In</h2>
+<form id="login-form">
+  <input type="text" id="login-username" placeholder="Username" required /><br/>
+  <input type="password" id="login-password" placeholder="Password" required /><br/>
+  <button type="submit">Log In</button>
+</form>
+
+<div id="login-message"></div>
+
+<script>
+document.getElementById('login-form').addEventListener('submit', function(e) {
+  e.preventDefault(); // Prevent page refresh
+  
+  const username = document.getElementById('login-username').value;
+  const password = document.getElementById('login-password').value;
+
+  fetch('http://127.0.0.1:5000/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('login-message').innerText = data.message;
+  })
+  .catch(error => {
+    document.getElementById('login-message').innerText = 'Error: ' + error;
+  });
+});
+</script>
